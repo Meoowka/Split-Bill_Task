@@ -1,3 +1,4 @@
+<!--Исправил название функции-->
 const userDataToObject = (id, name) => ({id, name})
 
 export default {

@@ -1,4 +1,5 @@
-const Product = (id, name, price, buyer) => ({id, name, price, buyer, consumers: []})
+<!--Исправил название функции, а также исправил if-->
+const productDataToObject = (id, name, price, buyer) => ({id, name, price, buyer, consumers: []})
 
 export default {
     namespaced: true,
@@ -12,7 +13,7 @@ export default {
             state.products = [];
         },
         ADD(state, {name, price, buyer}) {
-            state.products.push(Product(state.products[state.products.length-1]?.id + 1 || 0, name, price, buyer));
+            state.products.push(productDataToObject(state.products[state.products.length-1]?.id + 1 || 0, name, price, buyer));
         },
         EDIT(state, {id, name, price}){
             const product = state.products.find(p => p.id === id);
@@ -28,11 +29,13 @@ export default {
         REMOVE_CONSUMER(state, {id, buyerChange}) {
             state.products.forEach(product => {
                 product.consumers = product.consumers.filter(c => c !== id);
+
                 if(product.buyer === id) product.buyer = buyerChange;
             });
         },
         TOGGLE_USERS(state, {id, user}){
             const consumers = state.products.find(p => p.id === id).consumers;
+
             if(!consumers.includes(user)) {
                 consumers.push(user)
             } else {
@@ -41,9 +44,9 @@ export default {
         },
         TOGGLE_ALL_USERS(state, {id, users}){
             const consumers = state.products.find(p => p.id === id).consumers;
-            console.log(id, users)
             const flag = consumers.length !== users.length;
             consumers.splice(0, consumers.length)
+
             if(flag) users.forEach(c => consumers.push(c.id));
         },
     },

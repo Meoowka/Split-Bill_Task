@@ -140,10 +140,11 @@ export default {
                 <div class="icon">+</div>
                 <p class="user-name">All</p>
               </div>
+              <!--Поменял расположение v-for-->
               <div
+                  v-for="user in usersFromStore"
                   class="user-list-item"
                   :class="{selected: consumers.includes(user.id)}"
-                  v-for="user in usersFromStore"
                   @click="toggleUsers({id, user: user.id})"
               >
                 <div class="icon">{{ user.name[0] }}</div>

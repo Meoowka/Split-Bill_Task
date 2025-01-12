@@ -28,7 +28,6 @@ export default {
       this.stopEdit();
       this.editId = id;
       this.editName = this.user.find(c => c.id === id).name;
-      nextTick(() => this.$el.querySelector('#name-inp').focus());
     },
     stopEdit() {
       if (this.editId === null) {
@@ -43,7 +42,6 @@ export default {
       nextTick(() => {
         const ul = this.$el.querySelector('ul');
         ul.scrollTop = ul.scrollHeight;
-        this.$el.querySelector('#name-inp').focus();
       });
     },
     handleInputKey(e, target) {
@@ -88,13 +86,16 @@ export default {
               @keydown="(e) => this.handleInputKey(e, '.bi-check-lg')"
           />
         </div>
-        <i v-if="id !== editId" class="bi bi-pencil-fill" @click="startEdit(id)"></i>
-        <i v-else class="bi bi-check-lg" @click="stopEdit()"></i>
-        <i class="bi bi-trash-fill" @click="remove(id)"></i>
+        <!--Исправил отображение кнопки редактирования-->
+        <div>
+          <i v-if="id !== editId" class="bi bi-pencil-fill" @click="startEdit(id)"></i>
+          <i v-else class="bi bi-check-lg" @click="stopEdit()"></i>
+          <i class="bi bi-trash-fill" @click="remove(id)"></i>
+        </div>
       </li>
 
       <li class="list-btn" @click="add()">
-        <v-btn variant="tonal" class="bi bi-person-plus-fill" >
+        <v-btn variant="tonal" class="bi bi-person-plus-fill">
           Добавить пользователя
         </v-btn>
       </li>

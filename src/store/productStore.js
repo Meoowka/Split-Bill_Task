@@ -1,4 +1,4 @@
-<!--Исправил название функции, а также исправил if-->
+//Исправил название функции, а также исправил if
 const productDataToObject = (id, name, price, buyer) => ({id, name, price, buyer, consumers: []})
 
 export default {
@@ -12,7 +12,7 @@ export default {
         CLEAR_PRODUCTS(state) {
             state.products = [];
         },
-        <!--поставил проблы-->
+        //поставил проблы
         ADD(state, {name, price, buyer}) {
             state.products.push(productDataToObject(state
                 .products[state.products.length - 1]?.id + 1 || 0, name, price, buyer));
@@ -22,9 +22,10 @@ export default {
             product.name = name || `Product ${id + 1}`;
             product.price = price;
         },
-        <!--Убрал скобочки и поставил проблеы у buyer-->
+        //Убрал скобочки и поставил проблеы у buyer
         REMOVE(state, id){
             state.products = state.products.filter(c => c.id !== id);
+            console.log(id)
         },
         EDIT_BUYER(state, {id, buyer}){
             state.products.find(p => p.id === id).buyer = buyer;

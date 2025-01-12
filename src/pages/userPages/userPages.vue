@@ -11,7 +11,7 @@ export default {
   },
   computed: {
     ...mapState('userStore', {
-      user: state => state.user,
+      usersFromStore: state => state.user,
     }),
   },
   methods: {
@@ -22,12 +22,12 @@ export default {
     ]),
     remove(id) {
       this.stopEdit();
-      this.removeUser({id});
+      this.removeUser(id);
     },
     startEdit(id) {
       this.stopEdit();
       this.editId = id;
-      this.editName = this.user.find(c => c.id === id).name;
+      this.editName = this.usersFromStore.find(c => c.id === id).name;
       nextTick(() => this.$el.querySelector('#name-inp').focus());
     },
     stopEdit() {
@@ -39,7 +39,7 @@ export default {
     },
     add() {
       this.addUser({name: ""});
-      this.startEdit(this.user[this.user.length - 1].id);
+      this.startEdit(this.usersFromStore[this.usersFromStore.length - 1].id);
       nextTick(() => {
         const ul = this.$el.querySelector('ul');
         ul.scrollTop = ul.scrollHeight;
@@ -54,7 +54,7 @@ export default {
       this.$el.querySelector(target).click();
     },
     handleProductAdd() {
-      if (this.user.length === 0) {
+      if (this.usersFromStore.length === 0) {
         alert("Сначала создайте хотя бы одного пользователя!");
         return;
       }
@@ -73,7 +73,7 @@ export default {
     <ul>
       <li
           class="list-item"
-          v-for="{id, name} in user"
+          v-for="{id, name} in usersFromStore"
           :class="{editing: id === editId}"
           :key="id"
       >
@@ -84,13 +84,13 @@ export default {
               v-else
               v-model="editName"
               type="text"
-              :placeholder="`User ${user.length}`"
+              :placeholder="`User ${usersFromStore.length}`"
               @keydown="(e) => this.handleInputKey(e, '.bi-check-lg')"
           />
         </div>
-        <i v-if="id !== editId" class="bi bi-pencil-fill" @click="startEdit(id)"></i>
-        <i v-else class="bi bi-check-lg" @click="stopEdit()"></i>
-        <i class="bi bi-trash-fill" @click="remove(id)"></i>
+        <v-btn v-if="id !== editId" class="bi bi-pencil-fill" @click="startEdit(id)"></v-btn>
+        <v-btn v-else class="bi bi-check-lg" @click="stopEdit()"></v-btn>
+        <v-btn class="bi bi-trash-fill" @click="remove(id)"></v-btn>
       </li>
 
       <li class="list-btn" @click="add()">
@@ -99,11 +99,11 @@ export default {
         </v-btn>
       </li>
     </ul>
-    <p v-if="user.length === 0" class="info-message">
+    <p v-if="usersFromStore.length === 0" class="info-message">
       Пожалуйста, создайте пользователя перед добавлением продукта.
     </p>
     <v-btn
-        v-if="user.length > 0"
+        v-if="usersFromStore.length > 0"
         variant="tonal"
         class="link next-btn"
         @click.prevent="handleProductAdd"

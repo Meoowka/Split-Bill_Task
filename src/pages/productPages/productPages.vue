@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     ...mapState('userStore', {
-      user: state => state.user,
+      usersFromStore: state => state.user,
     }),
     ...mapState('productStore', {
       products: state => state.products,
@@ -38,7 +38,7 @@ export default {
     },
     remove(id) {
       this.stopEdit();
-      this.removeProduct({id});
+      this.removeProduct(id);
     },
     startEdit(id) {
       this.stopEdit();
@@ -46,7 +46,6 @@ export default {
       const product = this.products.find(p => p.id === id);
       this.editName = product.name;
       this.editPrice = product.price;
-      nextTick(() => this.$el.querySelector('#name-inp').focus());
     },
     stopEdit() {
       if (this.editId === null) {
@@ -85,7 +84,7 @@ export default {
 <template>
   <div class="container">
     <h1>Продукты</h1>
-    <ul v-if="user.length">
+    <ul v-if="usersFromStore.length">
       <li
           class="list-item"
           v-for="{id, name, price, buyer, consumers} in products"
@@ -125,7 +124,7 @@ export default {
                   :value="buyer"
               >
                 <option
-                    v-for="user in user"
+                    v-for="user in usersFromStore"
                     :value="user.id">{{ user.name }}
                 </option>
               </select>
@@ -135,8 +134,8 @@ export default {
             <div class="user-list">
               <div
                   class="user-list-item user-list-select-all"
-                  :class="{selected: consumers.length === user.length}"
-                  @click="toggleAllUsers({id, users: user})"
+                  :class="{selected: consumers.length === usersFromStore.length}"
+                  @click="toggleAllUsers({id, users: usersFromStore})"
               >
                 <div class="icon">+</div>
                 <p class="user-name">All</p>
@@ -144,7 +143,7 @@ export default {
               <div
                   class="user-list-item"
                   :class="{selected: consumers.includes(user.id)}"
-                  v-for="user in user"
+                  v-for="user in usersFromStore"
                   @click="toggleUsers({id, user: user.id})"
               >
                 <div class="icon">{{ user.name[0] }}</div>
@@ -153,21 +152,22 @@ export default {
             </div>
           </div>
         </div>
-
+<!--Заменил i на v-btn-->
         <div class="edit-buttons">
-          <i
+          <v-btn
               v-if="id !== editId"
               class="bi bi-pencil-fill i-pointer"
               @click="startEdit(id)"
-          ></i>
-          <i
+          ></v-btn>
+          <v-btn
               v-else
               class="bi bi-check-lg i-pointer"
-              @click="stopEdit()"></i>
-          <i class="bi bi-trash-fill i-pointer" @click="remove(id)"></i>
+              @click="stopEdit()"></v-btn>
+          <v-btn class="bi bi-trash-fill i-pointer" @click="remove(id)"></v-btn>
         </div>
       </li>
-      <li class="list-btn" @click="add()" :key="-1">
+      <!--Убрал key-->
+      <li class="list-btn" @click="add()">
         <v-btn class="bi bi-bag-plus-fill">
           Добавить новый продукт
         </v-btn>
@@ -175,14 +175,14 @@ export default {
     </ul>
     <h4 class="info-message" v-else>Нету добавленных пользователей</h4>
     <v-btn
-        v-if="user.length && products.length"
+        v-if="usersFromStore.length && products.length"
         class="link next-btn"
         @click.prevent="handleCalculateCost"
     >
       Рассчитать стоимость
     </v-btn>
     <router-link
-        v-if="!user.length"
+        v-if="!usersFromStore.length"
         class="link next-btn"
         to="/users"
     >

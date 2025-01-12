@@ -104,6 +104,7 @@ export default {
                   placeholder="Введите названия..."
                   @keydown="(e) => this.handleInputKey(e, '#price-inp', true)"
               />
+              <!--Испарвил отображение названия валюты у цены-->
               <p v-if="id !== editId" class="price">{{ price }} рубликов</p>
               <input
                   v-else

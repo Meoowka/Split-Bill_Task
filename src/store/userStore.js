@@ -1,4 +1,4 @@
-const Users = (id, name) => ({id, name})
+const userDataToObject = (id, name) => ({id, name})
 
 export default {
     namespaced: true,
@@ -16,7 +16,7 @@ export default {
             state.user = [];
         },
         ADD(state, {name}) {
-            state.user.push(Users(state.user[state.user.length-1]?.id + 1 || 0, name));
+            state.user.push(userDataToObject(state.user[state.user.length-1]?.id + 1 || 0, name));
         },
         EDIT(state, {id, name}) {
             state.user.find(c => c.id === id).name = name || `User ${id + 1}`;

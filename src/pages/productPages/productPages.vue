@@ -86,8 +86,8 @@ export default {
     <h1>Продукты</h1>
     <ul v-if="usersFromStore.length">
       <li
-          class="list-item"
           v-for="{id, name, price, buyer, consumers} in products"
+          class="list-item"
           :class="{editing: id === editId}"
           :key="id"
       >
@@ -146,6 +146,7 @@ export default {
                   class="user-list-item"
                   :class="{selected: consumers.includes(user.id)}"
                   @click="toggleUsers({id, user: user.id})"
+                  :key="user.id"
               >
                 <div class="icon">{{ user.name[0] }}</div>
                 <p class="user-name">{{ user.name }}</p>
@@ -153,7 +154,7 @@ export default {
             </div>
           </div>
         </div>
-<!--Заменил i на v-btn-->
+        <!--Заменил i на v-btn-->
         <div class="edit-buttons">
           <v-btn
               v-if="id !== editId"

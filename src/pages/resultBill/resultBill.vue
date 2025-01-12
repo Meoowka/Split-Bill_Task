@@ -80,18 +80,23 @@ export default {
 }
 </script>
 <template>
+  <!--Исправил момент с "атрибутов у компонента больше 1-2"-->
   <div class="container">
     <h1>Result</h1>
     <ul v-if="user.length && products.length && someonePays">
       <template v-for="{id, name, payed, owed} in result">
-        <li class="list-item" v-if="payed > 0 || owed.length > 0" :key="id">
+        <li class="list-item"
+            v-if="payed > 0 || owed.length > 0"
+            :key="id">
           <p v-if="payed > 0" class="payment">
             <span class="name">{{ name }}</span>
             заплатит
             <span class="money">{{ payed.toFixed(2) }} рубликов</span>
           </p>
           <p v-for="lender, index in owed" class="debt">
-            <span class="name" :transparent="payed > 0 || index > 0">{{ name }}</span>
+            <span class="name" :transparent="payed > 0 || index > 0">
+              {{ name }}
+            </span>
             должен
             <span class="name">{{ lender.name }}</span>
             <span class="money"> {{ lender.sum.toFixed(2) }} рубликов</span>

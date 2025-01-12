@@ -12,19 +12,22 @@ export default {
         CLEAR_PRODUCTS(state) {
             state.products = [];
         },
+        <!--поставил проблы-->
         ADD(state, {name, price, buyer}) {
-            state.products.push(productDataToObject(state.products[state.products.length-1]?.id + 1 || 0, name, price, buyer));
+            state.products.push(productDataToObject(state
+                .products[state.products.length - 1]?.id + 1 || 0, name, price, buyer));
         },
         EDIT(state, {id, name, price}){
             const product = state.products.find(p => p.id === id);
             product.name = name || `Product ${id + 1}`;
             product.price = price;
         },
-        REMOVE(state, {id}){
+        <!--Убрал скобочки и поставил проблеы у buyer-->
+        REMOVE(state, id){
             state.products = state.products.filter(c => c.id !== id);
         },
         EDIT_BUYER(state, {id, buyer}){
-            state.products.find(p => p.id === id).buyer=buyer;
+            state.products.find(p => p.id === id).buyer = buyer;
         },
         REMOVE_CONSUMER(state, {id, buyerChange}) {
             state.products.forEach(product => {

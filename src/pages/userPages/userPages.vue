@@ -28,7 +28,6 @@ export default {
       this.stopEdit();
       this.editId = id;
       this.editName = this.usersFromStore.find(c => c.id === id).name;
-      nextTick(() => this.$el.querySelector('#name-inp').focus());
     },
     stopEdit() {
       if (this.editId === null) {
@@ -43,7 +42,7 @@ export default {
       nextTick(() => {
         const ul = this.$el.querySelector('ul');
         ul.scrollTop = ul.scrollHeight;
-        this.$el.querySelector('#name-inp').focus();
+
       });
     },
     handleInputKey(e, target) {
@@ -88,9 +87,11 @@ export default {
               @keydown="(e) => this.handleInputKey(e, '.bi-check-lg')"
           />
         </div>
+        <div>
         <v-btn v-if="id !== editId" class="bi bi-pencil-fill" @click="startEdit(id)"></v-btn>
         <v-btn v-else class="bi bi-check-lg" @click="stopEdit()"></v-btn>
         <v-btn class="bi bi-trash-fill" @click="remove(id)"></v-btn>
+        </div>
       </li>
 
       <li class="list-btn" @click="add()">

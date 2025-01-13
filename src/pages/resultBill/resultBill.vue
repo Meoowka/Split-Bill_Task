@@ -46,10 +46,10 @@ export default {
 
     const lenders = []
     this.result.forEach(c => {
-      c.diff = c.payed - c.consumed;
       if (c.payed) {
         this.someonePays = true;
       }
+      c.diff = c.payed - c.consumed;
       if (c.diff > 0) {
         lenders.push({id: c.id, debt: c.diff, name: c.name});
       }
@@ -90,7 +90,7 @@ export default {
             :key="id">
           <p v-if="payed > 0" class="payment">
             <span class="name">{{ name }}</span>
-            заплатит
+            заплатил
             <span class="money">{{ payed.toFixed(2) }} рубликов</span>
           </p>
           <p v-for="lender, index in owed" class="debt">

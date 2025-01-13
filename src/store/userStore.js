@@ -1,4 +1,4 @@
-<!--Исправил название функции-->
+//Исправил название функции
 const userDataToObject = (id, name) => ({id, name})
 
 export default {
@@ -11,7 +11,7 @@ export default {
     getters: {
         getFirstUserID: state => () => state.user[0]?.id || 0
     },
-    <!--Исправил скобочки-->
+    //Исправил скобочки
     mutations: {
         CLEAR_USERS(state) {
             state.user = [];
@@ -22,7 +22,7 @@ export default {
         EDIT(state, {id, name}) {
             state.user.find(c => c.id === id).name = name || `User ${id + 1}`;
         },
-        REMOVE(state, {id}) {
+        REMOVE(state, id) {
             state.user = state.user.filter(c => c.id !== id);
         }
     },
